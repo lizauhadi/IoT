@@ -20,8 +20,9 @@ jobs:
 
       - name: Build and publish
         run: |
-          dotnet build --configuration Release
-          dotnet publish -c Release -o ./publish
+          dotnet build IoT12/IoT12.sln --configuration Release
+          dotnet publish IoT12/IoT12.sln -c Release -o ./publish
+
 
       - name: Deploy to Azure Web App
         uses: Azure/webapps-deploy@v2

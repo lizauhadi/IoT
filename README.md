@@ -26,7 +26,7 @@ który zawiera kluczowe parametry niezbędne do połączenia z Azure IoT Hub i s
 	"AzureDevicesConnectionStrings": [
 	"HostName=YourIoTHub.azure-devices.net;DeviceId=Device1;SharedAccessKey=..."
 	"HostName=YourIoTHub.azure-devices.net;DeviceId=Device1;SharedAccessKey=..."
-	....
+	"..."
 	]
 					],
 	"AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=iotstorage12;AccountKey=...",

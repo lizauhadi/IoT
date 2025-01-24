@@ -26,9 +26,10 @@ który zawiera kluczowe parametry niezbędne do połączenia z Azure IoT Hub i s
   "AzureDevicesConnectionStrings": [
     "HostName=YourIoTHub.azure-devices.net;DeviceId=Device1;SharedAccessKey=..."
   ],
-  "TelemetrySendingDelayInMs": 5000,
-  "ErrorCheckingDelayInMs": 2000,
-  "ProductionRateCheckingDelayInMs": 2000
+	"AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=iotstorage12;AccountKey=...",
+	"IoTHubConnectionString": "HostName=Stanislaw-Sahan-Project.azure-devices.net;SharedAccessKey=...",
+    	"ServiceBusConnectionString": "Endpoint=sb://servicebusiot12.servicebus.windows.net/;SharedAccessKeyName..."
+}
 }
 
 ```

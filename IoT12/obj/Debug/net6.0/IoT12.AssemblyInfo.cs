@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("IoT12")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b0555a4f445e5646928621b19e563f5ad6c04a1f")]
 [assembly: System.Reflection.AssemblyProductAttribute("IoT12")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IoT12")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

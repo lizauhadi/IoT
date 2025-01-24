@@ -1,12 +1,12 @@
 ﻿using Opc.UaFx;
 using Opc.UaFx.Client;
 using Microsoft.Azure.Devices.Client;
+using Microsoft.Azure.Devices.Shared;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
+using System.Text.Json.Serialization;
 using IoT_Project;
-using Microsoft.Azure.Devices.Shared;
 
 internal static class ProgramEntryPoint
 {
@@ -46,13 +46,20 @@ internal static class ProgramEntryPoint
                         }
 
                         string deviceId = device.Attribute(OpcAttribute.DisplayName).Value?.ToString() ?? "UnknownDevice";
+
                         var telemetryData = new
                         {
                             deviceId = deviceId,
                             productionStatus = GetIntValue(client.ReadNode($"ns=2;s={deviceId}/ProductionStatus")),
+                            productionRate = GetIntValue(client.ReadNode($"ns=2;s={deviceId}/ProductionRate")),
                             temperature = GetDoubleValue(client.ReadNode($"ns=2;s={deviceId}/Temperature")),
+                            goodCount = GetIntValue(client.ReadNode($"ns=2;s={deviceId}/GoodCount")),
+                            badCount = GetIntValue(client.ReadNode($"ns=2;s={deviceId}/BadCount")),
+                            deviceError = GetDeviceErrorValue(client, deviceId, "DeviceError"),
                             timestamp = DateTime.UtcNow
                         };
+
+                        Console.WriteLine($"Odczytano z OPC UA: {deviceId} - Production Status: {telemetryData.productionStatus} - Temperatura: {telemetryData.temperature}");
 
                         await SendDataToIoTHub(connections[devices.IndexOf(device)], telemetryData);
                         await Task.Delay(telemetryInterval);
@@ -140,7 +147,7 @@ internal static class ProgramEntryPoint
 
             var jsonOptions = new JsonSerializerOptions
             {
-                ReferenceHandler = ReferenceHandler.Preserve,
+                ReferenceHandler = ReferenceHandler.Preserve,  // Zachowanie odniesień
                 MaxDepth = 128,
                 WriteIndented = true
             };
@@ -167,6 +174,19 @@ internal static class ProgramEntryPoint
     {
         if (nodeValue.Value == null) return 0.0;
         return double.TryParse(nodeValue.Value.ToString(), out double value) ? value : 0.0;
+    }
+
+    private static object GetDeviceErrorValue(OpcClient client, string deviceId, string tagName)
+    {
+        var node = client.ReadNode($"ns=2;s={deviceId}/{tagName}");
+        if (node.Value == null)
+        {
+            Console.WriteLine($"Błąd: {tagName} zwrócił null dla {deviceId}. Sprawdź konfigurację serwera OPC UA.");
+            return "Unknown";
+        }
+
+        Console.WriteLine($"DeviceError dla {deviceId}: {node.Value} (typ: {node.Value.GetType()})");
+        return node.Value;
     }
 
     private static List<OpcNodeInfo> ConnectDevicesWithIoTDevices(OpcClient client, List<string> connections)

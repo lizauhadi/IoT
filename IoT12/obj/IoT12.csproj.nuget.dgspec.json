@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\USER\\RiderProjects\\IoT\\IoT12\\IoT12.csproj": {}
+    "C:\\Users\\USER\\IOT12\\IoT12\\IoT12.csproj": {}
   },
   "projects": {
-    "C:\\Users\\USER\\RiderProjects\\IoT\\IoT12\\IoT12.csproj": {
+    "C:\\Users\\USER\\IOT12\\IoT12\\IoT12.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\USER\\RiderProjects\\IoT\\IoT12\\IoT12.csproj",
+        "projectUniqueName": "C:\\Users\\USER\\IOT12\\IoT12\\IoT12.csproj",
         "projectName": "IoT12",
-        "projectPath": "C:\\Users\\USER\\RiderProjects\\IoT\\IoT12\\IoT12.csproj",
+        "projectPath": "C:\\Users\\USER\\IOT12\\IoT12\\IoT12.csproj",
         "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\USER\\RiderProjects\\IoT\\IoT12\\obj\\",
+        "outputPath": "C:\\Users\\USER\\IOT12\\IoT12\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "rgV43SoLBoU=",
+  "dgSpecHash": "b+1yYZK6BYQ=",
   "success": true,
-  "projectFilePath": "C:\\Users\\USER\\RiderProjects\\IoT\\IoT12\\IoT12.csproj",
+  "projectFilePath": "C:\\Users\\USER\\IOT12\\IoT12\\IoT12.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\USER\\.nuget\\packages\\azure.core\\1.44.1\\azure.core.1.44.1.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\azure.core.amqp\\1.3.1\\azure.core.amqp.1.3.1.nupkg.sha512",

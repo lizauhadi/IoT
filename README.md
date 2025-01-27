@@ -12,7 +12,6 @@ Poniższa instrukcja opisuje, jak uruchomić i skonfigurować Twój projekt **Io
   - **Azure Stream Analytics**,  
   - **Service Bus**,  
   - **Azure Functions**.  
-- Ewentualnie – **wysyłania powiadomień e-mail** za pomocą **Azure Communication Services**.
 
 #  Wstęp
 
@@ -218,13 +217,6 @@ Aplikacja integruje się z **Azure Stream Analytics**, realizując następujące
 ### Monitorowanie błędów urządzeń
 - Detekcja, gdy liczba błędów przekroczy określony próg w **1-minutowym** oknie czasowym.
 
-## Funkcjonalności dodatkowe
-
-### Powiadomienia e-mail
-Aplikacja może wysyłać powiadomienia w przypadku awarii urządzeń do określonych odbiorców.
-
-### Dynamiczna zmiana konfiguracji
-Możliwość edycji konfiguracji za pomocą interaktywnego menu ustawień.
 
 
 ### Kalkulacje
@@ -365,24 +357,14 @@ Wynik:
   ```plaintext
   Insufficient device connections
 
-### Nie wysyła się e-mail
-
-- Upewnij się, że dane **ACS** *(CommunicationServicesConnectionString, Sender)* są prawidłowe.  
-- Sprawdź, czy masz włączoną usługę e-mail w **Azure Communication Services**.
-
-## #Zawieszanie się aplikacji
+### Zawieszanie się aplikacji
 
 - Zamknij konsolę i uruchom ponownie.  
 - Sprawdź, czy plik konfiguracyjny nie ma błędów składniowych.
 
-### Device Twin nie odzwierciedla zmian
-
-- Sprawdź w logach, czy **Agent** zgłasza jakieś błędy przy próbie **UpdateReportedProperties**.  
-- Zweryfikuj poprawność **IoTHubConnectionString** i uprawnień do **Device Twin**.
-
 ---
 
-## 13. Podsumowanie
+##  Podsumowanie
 
 Projekt **IoT** łączy serwer **OPC UA** z chmurą **Azure**, umożliwiając:
 
@@ -393,20 +375,11 @@ Projekt **IoT** łączy serwer **OPC UA** z chmurą **Azure**, umożliwiając:
   - obliczeń **KPI**,  
   - wykrywania anomalii,  
   - liczenia błędów.  
-- *(Opcjonalnie)* **Powiadomienia mailowe** przez **Azure Communication Services**.
 
 Dzięki temu masz elastyczną platformę do monitorowania oraz sterowania urządzeniami przemysłowymi w czasie rzeczywistym.  
 Konfiguracja może być dynamicznie zmieniana zarówno w pliku **appsettings.json**, jak i *(w niektórych wersjach projektu)* poprzez interaktywne menu w konsoli.
 
----
-
-# Wskazówki dodatkowe
-
-- Jeśli chcesz korzystać z automatycznych wywołań *(np. `EmergencyStop` przy dużej liczbie błędów)*, zaimplementuj w chmurze **Azure Functions**, które będą nasłuchiwać komunikatów z **Service Bus**.  
-- Pamiętaj, że nazwy kontenerów/ścieżek w **Azure Blob Storage** *(jeśli zapisywane są wyniki ASA)* możesz dowolnie zmieniać w konfiguracji usługi **Azure Stream Analytics**.  
-- W przypadku integracji z innymi usługami *(np. Logic Apps, Power BI)* pamiętaj o właściwej polityce uwierzytelniania i uprawnień (**Role Assignments** w Azure).
-
-**Powodzenia w dalszym rozwijaniu projektu IoT!** 🚀
+**Powodzenia!** 🚀
 
 
 

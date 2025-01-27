@@ -1,17 +1,68 @@
+
 # AGENT APP
-## Wstęp
 
-Niniejszy projekt implementuje system połączenia urządzeń OPC UA z chmurą Azure IoT Hub, umożliwiając monitorowanie parametrów produkcyjnych oraz zarządzanie zdarzeniami i alarmami.
+# Instrukcja uruchomienia i konfiguracji projektu IoT
 
-## Połączenie z serwerem OPC UA
-#### Jak uruchomić aplikację?
+Poniższa instrukcja opisuje, jak uruchomić i skonfigurować Twój projekt **IoT**, który służy do:
+
+- **Odczytu parametrów** z serwera **OPC UA**.  
+- **Wysyłania danych** do **Azure IoT Hub**.  
+- **Obsługi Direct Methods** i **Device Twin**.  
+- **Integracji z usługami chmurowymi**, takimi jak:
+  - **Azure Stream Analytics**,  
+  - **Service Bus**,  
+  - **Azure Functions**.  
+- Ewentualnie – **wysyłania powiadomień e-mail** za pomocą **Azure Communication Services**.
+
+#  Wstęp
+
+Projekt **IoT** umożliwia:
+
+- **Połączenie z serwerem OPC UA** i zbieranie parametrów produkcyjnych, takich jak:  
+  - `ProductionStatus`  
+  - `ProductionRate`  
+  - `Temperature`  
+  - `GoodCount`  
+  - `BadCount`  
+  - `DeviceError`  
+
+- **Przesyłanie tych danych** do **Azure IoT Hub** w postaci wiadomości **D2C** (*Device-to-Cloud*).  
+- **Zarządzanie urządzeniami z chmury** – poprzez **Direct Methods**, np.:
+  - `EmergencyStop`  
+  - `ResetErrorStatus`  
+
+- **Synchronizację konfiguracji** z **Azure** dzięki **Device Twin**.  
+- **Możliwość rozbudowy w chmurze**, np. za pomocą:
+  - **Azure Stream Analytics**  
+  - **Azure Functions**  
+  Umożliwia to automatyczne wywoływanie akcji (*EmergencyStop*), wykrywanie anomalii w produkcji, monitorowanie błędów itp.
+
+- *(Opcjonalnie)* **Wysyłanie e-maili alarmowych**, jeśli w projekcie dodane są dane do **Azure Communication Services**.
 
 
+#  Pobranie i uruchomienie projektu
 
-- Otwórz plik IoT12.sln.
-- Kliknij przycisk Run, aby uruchomić aplikację.
+### Pobierz projekt z GitHub
 
-#### Jak połączyć się z serwerem OPC UA?
+- Link do repozytorium: [https://github.com/lizauhadi/IoT](https://github.com/lizauhadi/IoT)  
+- Możesz pobrać kod jako **ZIP** lub sklonować repozytorium:  
+  ```bash
+  git clone https://github.com/lizauhadi/IoT
+- Możesz pobrać kod jako **ZIP** lub sklonować repozytorium:  
+  ```bash
+  git clone ..
+  
+### Otwórz projekt w Visual Studio
+
+1. Upewnij się, że masz zainstalowane **Visual Studio** (*2022 lub nowsze*) bądź inne środowisko **.NET**.  
+2. Otwórz plik rozwiązania *(np. `IoT.sln`, jeśli tak się nazywa w repozytorium)*.
+
+### Zbuduj i uruchom
+
+1. Wybierz przycisk **"Start"** lub **"Run"** *(zielony trójkąt)* w **Visual Studio**.  
+2. Jeżeli wszystko przebiegnie poprawnie, aplikacja powinna uruchomić się w oknie konsoli.
+
+## Jak połączyć się z serwerem OPC UA?
 
 - Musisz podać URL serwera OPC UA w formacie opc.tcp://localhost:4840/.
 
@@ -52,20 +103,48 @@ Odczytywane parametry:
 
 
 
-### Odczyt i zapis danych
+## Odczyt i zapis danych
 
 Po uruchomieniu aplikacja wykonuje następujące kroki:
 
 1. Odczytuje strukturę serwera **OPC UA**, identyfikując urządzenia.
-2. Co określony interwał *(domyślnie 3 sekundy)* zbiera dane telemetryczne z węzłów urządzeń, obejmujące m.in.:
+2. Co określony interwał  zbiera dane telemetryczne z węzłów urządzeń, obejmujące m.in.:
    - **Status produkcji**,  
    - **Szybkość produkcji**,  
    - **Temperaturę**,  
    - **Liczbę dobrych i złych produktów**,  
    - **Błędy urządzenia**.
 3. Przesyła zebrane dane do **Azure IoT Hub**.
+4. Jeśli pojawiły się nowe błędy (np. deviceError != 0), wysyła wiadomość o błędzie.
+### Przykład wiadomości telemetrii (JSON):
 
-#### Direct Methods
+```json
+{
+  "deviceName": "Device 1",
+  "productionStatus": 1,
+  "goodCount": 297,
+  "badCount": 33,
+  "temperature": 69.75,
+  "EventProcessedUtcTime": "2025-01-24T14:10:25.5587594Z",
+  "IoTHub": {
+    "ConnectionDeviceId": "Device1",
+    "EnqueuedTime": "2025-01-24T13:53:26.5530000Z"
+  }
+```
+}
+### Przykład wiadomości o bledzie):
+```json
+{
+  "errorName": "PowerFailure, SensorFailure",
+  "newErrors": 2,
+  "deviceName": "Device 1",
+  "currentErrors": "'Power Failure' 'Sensor Failure'",
+  "currentErrorCode": 6
+}
+```
+
+
+## Direct Methods
 
 Agent obsługuje bezpośrednie wywołania metod z Azure IoT Hub, które umożliwiają kontrolę urządzeń OPC UA. 
 Zaimplementowane metody:
@@ -96,7 +175,7 @@ private static async Task<MethodResponse> EmergencyStop(MethodRequest methodRequ
 }
 ```
 
-#### Device Twin
+### Device Twin
 
 Aplikacja wykorzystuje mechanizm Device Twin do synchronizacji konfiguracji między chmurą a agentem OPC UA.
 Zaimplementowane metody:
@@ -148,7 +227,6 @@ Aplikacja może wysyłać powiadomienia w przypadku awarii urządzeń do określ
 Możliwość edycji konfiguracji za pomocą interaktywnego menu ustawień.
 
 
-## Kalkulacje i logika biznesowa
 ### Kalkulacje
 
 Obliczenia realizowane są za pomocą usługi Azure Stream Analytics, która pobiera dane z Azure IoT Hub, przetwarza je w czasie rzeczywistym i zapisuje wyniki
@@ -275,11 +353,60 @@ Wynik:
 ```json
 	[{"deviceId":"Device 9","ErrorCount":47,"WindowEnd":"2025-01-24T14:40:00.0000000Z"}]
 ```
+##  Rozwiązywanie problemów
+
+### Brak połączenia z OPC UA
+- Sprawdź, czy serwer działa na `opc.tcp://localhost:4840/` *(albo innym porcie)*.  
+- Upewnij się, że zapora *(firewall)* nie blokuje portu.
+
+### Zbyt mała liczba AzureDevicesConnectionStrings
+- Jeśli masz **4 urządzenia** na **OPC UA**, musisz mieć co najmniej **4 łańcuchy połączeń**.  
+- W przeciwnym wypadku pojawi się błąd:  
+  ```plaintext
+  Insufficient device connections
+
+### Nie wysyła się e-mail
+
+- Upewnij się, że dane **ACS** *(CommunicationServicesConnectionString, Sender)* są prawidłowe.  
+- Sprawdź, czy masz włączoną usługę e-mail w **Azure Communication Services**.
+
+## #Zawieszanie się aplikacji
+
+- Zamknij konsolę i uruchom ponownie.  
+- Sprawdź, czy plik konfiguracyjny nie ma błędów składniowych.
+
+### Device Twin nie odzwierciedla zmian
+
+- Sprawdź w logach, czy **Agent** zgłasza jakieś błędy przy próbie **UpdateReportedProperties**.  
+- Zweryfikuj poprawność **IoTHubConnectionString** i uprawnień do **Device Twin**.
+
+---
+
+## 13. Podsumowanie
+
+Projekt **IoT** łączy serwer **OPC UA** z chmurą **Azure**, umożliwiając:
+
+- **Zbieranie i wysyłanie telemetrii** *(ProductionStatus, Temperature, GoodCount itp.)* do **IoT Hub**.  
+- **Obsługę metod** typu `EmergencyStop` i `ResetErrorStatus` z poziomu **IoT Explorer** (*Direct Methods*).  
+- **Synchronizację parametrów** poprzez **Device Twin** (*Desired/Reported*).  
+- **Rozbudowę** w **Azure Stream Analytics**, np. do:
+  - obliczeń **KPI**,  
+  - wykrywania anomalii,  
+  - liczenia błędów.  
+- *(Opcjonalnie)* **Powiadomienia mailowe** przez **Azure Communication Services**.
+
+Dzięki temu masz elastyczną platformę do monitorowania oraz sterowania urządzeniami przemysłowymi w czasie rzeczywistym.  
+Konfiguracja może być dynamicznie zmieniana zarówno w pliku **appsettings.json**, jak i *(w niektórych wersjach projektu)* poprzez interaktywne menu w konsoli.
+
+---
+
+# Wskazówki dodatkowe
+
+- Jeśli chcesz korzystać z automatycznych wywołań *(np. `EmergencyStop` przy dużej liczbie błędów)*, zaimplementuj w chmurze **Azure Functions**, które będą nasłuchiwać komunikatów z **Service Bus**.  
+- Pamiętaj, że nazwy kontenerów/ścieżek w **Azure Blob Storage** *(jeśli zapisywane są wyniki ASA)* możesz dowolnie zmieniać w konfiguracji usługi **Azure Stream Analytics**.  
+- W przypadku integracji z innymi usługami *(np. Logic Apps, Power BI)* pamiętaj o właściwej polityce uwierzytelniania i uprawnień (**Role Assignments** w Azure).
+
+**Powodzenia w dalszym rozwijaniu projektu IoT!** 🚀
 
 
-## Rozwiązywanie problemów
-
-- Jeśli aplikacja nie może połączyć się z serwerem **OPC UA**, sprawdź poprawność wpisanego adresu **URL**.  
-- W przypadku problemów z **IoT Hub** upewnij się, że używane są poprawne **klucze dostępowe**.  
-- Jeśli aplikacja nie wysyła e-maili, zweryfikuj konfigurację **Azure Communication Services**.
 

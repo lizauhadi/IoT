@@ -50,6 +50,19 @@ Odczytywane parametry:
 	 }
 ```
 
+### Odczyt i zapis danych
+
+Po uruchomieniu aplikacja wykonuje następujące kroki:
+
+Odczytuje strukturę serwera OPC UA, identyfikując urządzenia.
+Co określony interwał (domyślnie 3 sekundy) zbiera dane telemetryczne z węzłów urządzeń, obejmujące m.in.:
+Status produkcji,
+Szybkość produkcji,
+Temperaturę,
+Liczbę dobrych i złych produktów,
+Błędy urządzenia.
+Przesyła zebrane dane do Azure IoT Hub.
+
 #### Direct Methods
 
 Agent obsługuje bezpośrednie wywołania metod z Azure IoT Hub, które umożliwiają kontrolę urządzeń OPC UA. 

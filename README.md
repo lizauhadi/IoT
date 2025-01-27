@@ -50,6 +50,8 @@ Odczytywane parametry:
 	 }
 ```
 
+
+
 ### Odczyt i zapis danych
 
 Po uruchomieniu aplikacja wykonuje następujące kroki:

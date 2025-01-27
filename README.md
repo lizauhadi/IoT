@@ -50,18 +50,26 @@ Odczytywane parametry:
 	 }
 ```
 
-### Odczyt i zapis danych
+## Konfiguracja aplikacji
+
+Aplikacja może być konfigurowana za pomocą pliku **appsettings.json** lub interaktywnego menu ustawień.  
+Kluczowe parametry do konfiguracji to:
+
+
+
+
+## Odczyt i zapis danych
 
 Po uruchomieniu aplikacja wykonuje następujące kroki:
 
-Odczytuje strukturę serwera OPC UA, identyfikując urządzenia.
-Co określony interwał (domyślnie 3 sekundy) zbiera dane telemetryczne z węzłów urządzeń, obejmujące m.in.:
-Status produkcji,
-Szybkość produkcji,
-Temperaturę,
-Liczbę dobrych i złych produktów,
-Błędy urządzenia.
-Przesyła zebrane dane do Azure IoT Hub.
+1. Odczytuje strukturę serwera **OPC UA**, identyfikując urządzenia.
+2. Co określony interwał *(domyślnie 3 sekundy)* zbiera dane telemetryczne z węzłów urządzeń, obejmujące m.in.:
+   - **Status produkcji**,  
+   - **Szybkość produkcji**,  
+   - **Temperaturę**,  
+   - **Liczbę dobrych i złych produktów**,  
+   - **Błędy urządzenia**.
+3. Przesyła zebrane dane do **Azure IoT Hub**.
 
 #### Direct Methods
 
@@ -121,6 +129,32 @@ private static async Task ReportPropertyAsync(string propertyName, object value)
 }
 
 ```
+
+
+## Obliczenia w chmurze (Azure Stream Analytics)
+
+Aplikacja integruje się z **Azure Stream Analytics**, realizując następujące analizy:
+
+### Monitorowanie jakości produkcji (KPI)
+- Obliczenie procentu dobrych produktów względem całkowitej produkcji w **5-minutowych** oknach czasowych.  
+- Wyniki są przechowywane w **Azure Blob Storage**.
+
+### Analiza temperatury
+- Średnia, minimalna i maksymalna temperatura urządzeń w **5-minutowych** oknach czasowych.
+
+### Monitorowanie błędów urządzeń
+- Detekcja, gdy liczba błędów przekroczy określony próg w **1-minutowym** oknie czasowym.
+
+
+## Funkcjonalności dodatkowe
+
+### Powiadomienia e-mail
+Aplikacja może wysyłać powiadomienia w przypadku awarii urządzeń do określonych odbiorców.
+
+### Dynamiczna zmiana konfiguracji
+Możliwość edycji konfiguracji za pomocą interaktywnego menu ustawień.
+
+
 
 ## Kalkulacje i logika biznesowa
 ### Kalkulacje
@@ -249,3 +283,10 @@ Wynik:
 ```json
 	[{"deviceId":"Device 9","ErrorCount":47,"WindowEnd":"2025-01-24T14:40:00.0000000Z"}]
 ```
+
+# Rozwiązywanie problemów
+
+- Jeśli aplikacja nie może połączyć się z serwerem **OPC UA**, sprawdź poprawność wpisanego adresu **URL**.  
+- W przypadku problemów z **IoT Hub** upewnij się, że używane są poprawne **klucze dostępowe**.  
+- Jeśli aplikacja nie wysyła e-maili, zweryfikuj konfigurację **Azure Communication Services**.
+

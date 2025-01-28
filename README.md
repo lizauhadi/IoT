@@ -49,12 +49,12 @@ Projekt **IoT** umożliwia:
   
 ### Otwórz projekt w Visual Studio
 
-1. Upewnij się, że masz zainstalowane **Visual Studio** (*2022 lub nowsze*) bądź inne środowisko **.NET**.  
+1. Upewnij się, że masz zainstalowane **Visual Studio** bądź inne środowisko **.NET**.  
 2. Otwórz plik rozwiązania.
 
 ### Zbuduj i uruchom
 
-1. Wybierz przycisk **"Start"** lub **"Run"** *(zielony trójkąt)* w **Visual Studio**.  
+1. Wybierz przycisk **"Start"** lub **"Run"** w **Visual Studio**.  
 2. Jeżeli wszystko przebiegnie poprawnie, aplikacja powinna uruchomić się w oknie konsoli.
 
 ## Jak połączyć się z serwerem OPC UA?

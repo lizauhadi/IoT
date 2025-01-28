@@ -34,10 +34,6 @@ Projekt **IoT** umożliwia:
 - **Możliwość rozbudowy w chmurze**, np. za pomocą:
   - **Azure Stream Analytics**  
   - **Azure Functions**  
-  Umożliwia to automatyczne wywoływanie akcji (*EmergencyStop*), wykrywanie anomalii w produkcji, monitorowanie błędów itp.
-
-- *(Opcjonalnie)* **Wysyłanie e-maili alarmowych**, jeśli w projekcie dodane są dane do **Azure Communication Services**.
-
 
 #  Pobranie i uruchomienie projektu
 
@@ -54,7 +50,7 @@ Projekt **IoT** umożliwia:
 ### Otwórz projekt w Visual Studio
 
 1. Upewnij się, że masz zainstalowane **Visual Studio** (*2022 lub nowsze*) bądź inne środowisko **.NET**.  
-2. Otwórz plik rozwiązania *(np. `IoT.sln`, jeśli tak się nazywa w repozytorium)*.
+2. Otwórz plik rozwiązania.
 
 ### Zbuduj i uruchom
 
@@ -131,7 +127,7 @@ Po uruchomieniu aplikacja wykonuje następujące kroki:
   }
 ```
 }
-### Przykład wiadomości o bledzie):
+### Przykład wiadomości o bledzie:
 ```json
 {
   "errorName": "PowerFailure, SensorFailure",
@@ -349,10 +345,10 @@ Wynik:
 
 ### Brak połączenia z OPC UA
 - Sprawdź, czy serwer działa na `opc.tcp://localhost:4840/` *(albo innym porcie)*.  
-- Upewnij się, że zapora *(firewall)* nie blokuje portu.
+- Upewnij się, że firewall nie blokuje portu.
 
 ### Zbyt mała liczba AzureDevicesConnectionStrings
-- Jeśli masz **4 urządzenia** na **OPC UA**, musisz mieć co najmniej **4 łańcuchy połączeń**.  
+- Jeśli masz **9 urządzenia** na **OPC UA**, musisz mieć co najmniej **9 łańcuchy połączeń**.  
 - W przeciwnym wypadku pojawi się błąd:  
   ```plaintext
   Insufficient device connections
@@ -374,12 +370,6 @@ Projekt **IoT** łączy serwer **OPC UA** z chmurą **Azure**, umożliwiając:
 - **Rozbudowę** w **Azure Stream Analytics**, np. do:
   - obliczeń **KPI**,  
   - wykrywania anomalii,  
-  - liczenia błędów.  
-
-Dzięki temu masz elastyczną platformę do monitorowania oraz sterowania urządzeniami przemysłowymi w czasie rzeczywistym.  
-Konfiguracja może być dynamicznie zmieniana zarówno w pliku **appsettings.json**, jak i *(w niektórych wersjach projektu)* poprzez interaktywne menu w konsoli.
-
-**Powodzenia!** 🚀
-
+  - liczenia błędów.
 
 
